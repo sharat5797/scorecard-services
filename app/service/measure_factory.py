@@ -1,28 +1,27 @@
-from injector import inject, Binder, Module, InstanceProvider, singleton
-from app.modals.measure_response import MeasureType
 from app.service.measure_interface import Measure
 from app.measures.release_issues_measure.release_issues import ReleaseIssuesMeasure
-
+from app.measures.build_time_measure.build_time import BuildTimeMeasure
+from app.measures.deployment_health_measure.deployment_health import DeploymentHealthMeasure
+from app.measures.production_issues_measure.production_issues import ProductionIssuesMeasure
+from app.measures.e2e_tests_success_rate_measure.e2e_tests_success_rate import E2ETestsSuccessRateMeasure
 
 class MeasureFactory:
 
-    @inject
-    def __init__(self, measure_providers: Binder):
-        self.measure_providers = measure_providers
+    @staticmethod
+    def get_measure_instance(measure_type: str) -> Measure:
+        measure_type = measure_type.lower()  # Convert to lowercase to ensure case-insensitive matching
 
-    def get_measure_instance(self, measure_type: MeasureType) -> Measure:
-        measure_provider = self.measure_providers.get_binding(Measure)
-        if measure_provider:
-            return measure_provider[0]
+        if measure_type == "release_issues":
+            return ReleaseIssuesMeasure()
+        elif measure_type == "build_time":
+            return BuildTimeMeasure()
+        elif measure_type == "deployment_health":
+            return DeploymentHealthMeasure()
+        elif measure_type == "production_issues":
+            return ProductionIssuesMeasure()
+        elif measure_type == "e2e_tests_success_rate":
+            return E2ETestsSuccessRateMeasure()
         else:
             raise ValueError("Invalid measure type")
 
-# Define a Module for Flask-Injector
-class MeasureModule(Module):
-    def configure(self, binder):
-        # Automatically discover and bind MeasureType enum values to their implementation classes
-        measure_providers = {
-            MeasureType.RELEASE_ISSUES: ReleaseIssuesMeasure,
-        }
-        for measure_type, measure_provider in measure_providers.items():
-            binder.bind(MeasureType, to=InstanceProvider({measure_type: measure_provider}))
+\
