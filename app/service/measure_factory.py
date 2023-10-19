@@ -1,3 +1,4 @@
+from app.modals.measure_response import MeasureType
 from app.service.measure_interface import Measure
 from app.measures.release_issues_measure.release_issues import ReleaseIssuesMeasure
 from app.measures.build_time_measure.build_time import BuildTimeMeasure
@@ -8,20 +9,18 @@ from app.measures.e2e_tests_success_rate_measure.e2e_tests_success_rate import E
 class MeasureFactory:
 
     @staticmethod
-    def get_measure_instance(measure_type: str) -> Measure:
-        measure_type = measure_type.lower()  # Convert to lowercase to ensure case-insensitive matching
-
-        if measure_type == "release_issues":
+    def get_measure_instance(measure_type: MeasureType) -> Measure: 
+        if measure_type == MeasureType.RELEASE_ISSUES:
             return ReleaseIssuesMeasure()
-        elif measure_type == "build_time":
+        elif measure_type == MeasureType.BUILD_TIME:
             return BuildTimeMeasure()
-        elif measure_type == "deployment_health":
+        elif measure_type == MeasureType.DEPLOYMENT_HEALTH:
             return DeploymentHealthMeasure()
-        elif measure_type == "production_issues":
+        elif measure_type == MeasureType.PRODUCTION_ISSUES:
             return ProductionIssuesMeasure()
-        elif measure_type == "e2e_tests_success_rate":
+        elif measure_type == MeasureType.E2E_TESTS_SUCCESS_RATE:
             return E2ETestsSuccessRateMeasure()
         else:
             raise ValueError("Invalid measure type")
 
-\
+

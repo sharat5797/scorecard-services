@@ -22,13 +22,15 @@ def update_score():
 
     # For this example, we're just echoing the received parameters.
     # In a real-world scenario, you'd likely use these parameters to update data in a database or some other action.
-    # measure_factory = MeasureFactory()
-    # measure_instance = measure_factory.get_measure_instance(MeasureType.BUILD_TIME)
-    # response = measure_instance.generate_score()
-    response = MeasureResponse(score=10,
-                               measure_type=measure,
-                               service=services,
-                               org=orgs,
-                               measure_details=[MeasureDetail(measure_unit="unit", measure_value=10)])
+    measure = MeasureType(measure)
+    measure_factory = MeasureFactory()
+    measure_instance = measure_factory.get_measure_instance(measure)
+    response = measure_instance.generate_score()
+    # print(measure_instance.get_measure_type())
+    # response = MeasureResponse(score=10,
+    #                            measure_type=measure_instance.get_measure_type().name,
+    #                            service=services,
+    #                            org=orgs,
+    #                            measure_details=[MeasureDetail(measure_unit="unit", measure_value=10)])
 
     return jsonify(response.__dict__)
