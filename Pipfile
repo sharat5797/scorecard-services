@@ -1,0 +1,17 @@
+[[source]]
+url = "https://psaini:AKCp8nHDzYKkZJckyngHhpnGyzvHtcQHPa99Cm9paEz1kiY2SWNdHRCvLSywgu3fACLLZL8r4@packages.atlassian.com/pypi/pypi/simple"
+verify_ssl = true
+name = "pip_conf_index_global"
+
+[packages]
+flask = "*"
+pyyaml = "*"
+flask-injector = "*"
+marshmallow = "*"
+
+[dev-packages]
+pytest = "*"
+flake8 = "*"
+
+[requires]
+python_version = "3.11"
